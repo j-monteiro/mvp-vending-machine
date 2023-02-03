@@ -1,0 +1,20 @@
+default: &default
+  adapter:  postgresql
+  encoding: unicode
+  pool:     <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host:     <%= ENV.fetch('DB_HOST') { 'localhost' } %>
+  password: <%= ENV.fetch('DB_PASSWORD') { '' } %>
+  port:     <%= ENV.fetch('DB_PORT') { '5432' } %>
+  username: <%= ENV.fetch('DB_USER') { '' } %>
+
+
+development:
+  <<: *default
+  database: <%= ENV.fetch('DB_DATABASE') { 'mvp_vending_machine_dev' } %>
+
+test:
+  <<: *default
+  database: <%= ENV.fetch('DB_DATABASE') { "mvp_vending_machine_test" } %>
+
+production:
+  <<: *default
