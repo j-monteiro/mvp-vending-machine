@@ -9,8 +9,8 @@ module V1
         @delete_product_service = delete_product_service
       end
 
-      def perform(params:)
-        delete_product_service.perform(product_id: params[:product_id])
+      def perform(params:, current_user:)
+        delete_product_service.perform(product_id: params[:product_id], user_id: current_user.id)
 
         { message: 'product delete successfully', product_id: params[:product_id] }
       end

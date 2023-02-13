@@ -12,15 +12,15 @@ module Api
       end
 
       def create
-        authenticate_and_authorize!(authorized_roles: ['seller'])
+        user = authenticate_and_authorize!(authorized_roles: ['seller'])
 
         permitted = params.permit(:reference, :cost, :product_name, :amount)
 
-        render json: ::V1::Products::CreateOrganizer.new.perform(params: permitted)
+        render json: ::V1::Products::CreateOrganizer.new.perform(params: permitted.merge(user:))
       end
 
       def update
-        authenticate_and_authorize!(authorized_roles: ['seller'])
+        user = authenticate_and_authorize!(authorized_roles: ['seller'])
 
         permitted = params.permit(:product_id, :cost, :name, :amount)
 
@@ -28,11 +28,11 @@ module Api
       end
 
       def delete
-        authenticate_and_authorize!(authorized_roles: ['seller'])
+        user = authenticate_and_authorize!(authorized_roles: ['seller'])
 
         permitted = params.permit(:product_id)
 
-        render json: ::V1::Products::DeleteOrganizer.new.perform(params: permitted)
+        render json: ::V1::Products::DeleteOrganizer.new.perform(params: permitted, current_user: user)
       end
 
       def buy
