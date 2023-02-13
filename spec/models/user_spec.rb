@@ -9,6 +9,8 @@ RSpec.describe User do
   let(:password) { Faker::Internet.password }
   let(:role) { 'buyer' }
 
+  it { is_expected.to have_many(:products) }
+
   describe '#set_session_token_id' do
     it 'sets the value of session_token_id with SecureRandom#hex' do
       allow(SecureRandom).to receive(:hex).and_return('the-value')
