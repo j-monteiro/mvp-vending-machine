@@ -11,10 +11,16 @@ module V1
         @update_product_service = update_product_service
       end
 
-      def perform(params:)
+      def perform(params:, current_user:)
         product = get_products_service.perform(product_ids: [params.delete(:product_id)]).first
 
-        update_product_service.perform(product:, params:) unless product.nil?
+        unless product.nil?
+          product = update_product_service.perform(
+            product:,
+            user: current_user,
+            params:
+          )
+        end
 
         { message: 'product updated successfully', product: }
       end

@@ -22,9 +22,9 @@ module Api
       def update
         authenticate_and_authorize!(authorized_roles: ['seller'])
 
-        permitted = params.permit(:product_id, :cost, :name)
+        permitted = params.permit(:product_id, :cost, :name, :amount)
 
-        render json: ::V1::Products::UpdateOrganizer.new.perform(params: permitted)
+        render json: ::V1::Products::UpdateOrganizer.new.perform(params: permitted, current_user: user)
       end
 
       def delete
