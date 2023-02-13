@@ -10,7 +10,10 @@ module V1
       end
 
       def perform(params:)
-        product_id = create_product_service.perform(reference: params.delete(:reference), params:)
+        product_id = create_product_service.perform(
+          reference: params.delete(:reference),
+          params: { amount_available: params.delete(:amount), **params }
+        )
 
         { message: 'product created successfully', product_id: }
       end

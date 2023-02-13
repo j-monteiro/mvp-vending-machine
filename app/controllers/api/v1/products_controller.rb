@@ -14,7 +14,7 @@ module Api
       def create
         authenticate_and_authorize!(authorized_roles: ['seller'])
 
-        permitted = params.permit(:reference, :cost, :product_name)
+        permitted = params.permit(:reference, :cost, :product_name, :amount)
 
         render json: ::V1::Products::CreateOrganizer.new.perform(params: permitted)
       end
